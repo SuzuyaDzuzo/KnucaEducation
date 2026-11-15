@@ -1,0 +1,179 @@
+{
+  "updated_at": "15.11.2026 06:00",
+  "semester_start": "2026-09-01",
+  "subjects": [
+    {
+      "name": "Теоретическая электротехника",
+      "max_points": 60,
+      "teacher": "Коваленко А.В.",
+      "contact": "@kovalenko_ee",
+      "teams_url": "https://teams.microsoft.com"
+    },
+    {
+      "name": "Высшая математика",
+      "max_points": 60,
+      "teacher": "Мельник И.С.",
+      "contact": "melnyk@university.edu.ua",
+      "teams_url": "https://teams.microsoft.com"
+    },
+    {
+      "name": "Физика",
+      "max_points": 50,
+      "teacher": "Бондаренко П.Н.",
+      "contact": "@bondarenko_phys",
+      "teams_url": "https://teams.microsoft.com"
+    },
+    {
+      "name": "Программирование",
+      "max_points": 100,
+      "teacher": "Савченко Д.Р.",
+      "contact": "@savchenko_dev",
+      "teams_url": "https://teams.microsoft.com"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task_101",
+      "subject": "Теоретическая электротехника",
+      "title": "Лабораторная работа №4: Цепи синусоидального тока",
+      "description": "Построить векторные диаграммы и загрузить отчет в PDF во вкладку Задания.",
+      "deadline": "2026-11-16",
+      "source": "Лекция Teams (12.11)"
+    },
+    {
+      "id": "task_102",
+      "subject": "Высшая математика",
+      "title": "Расчетно-графическая работа: Кратные интегралы",
+      "description": "Решить варианты по списку группы, сдать на проверке на практике.",
+      "deadline": "2026-11-19",
+      "source": "Teams Assignments"
+    },
+    {
+      "id": "task_103",
+      "subject": "Физика",
+      "title": "Защита лабораторной №3.5 (Погрешности измерений)",
+      "description": "Ответить на контрольные вопросы из методички.",
+      "deadline": "2026-11-26",
+      "source": "Сообщение в Telegram"
+    }
+  ],
+  "schedule": {
+    "numerator": {
+      "1": [
+        {
+          "time": "08:30 - 10:05",
+          "subject": "Теоретическая электротехника",
+          "type": "Лекция",
+          "teacher": "Коваленко А.В.",
+          "room": "Teams",
+          "teams_url": "https://teams.microsoft.com"
+        },
+        {
+          "time": "10:25 - 12:00",
+          "subject": "Высшая математика",
+          "type": "Практика",
+          "teacher": "Мельник И.С.",
+          "room": "Ауд. 304",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "2": [
+        {
+          "time": "10:25 - 12:00",
+          "subject": "Физика",
+          "type": "Лабораторная",
+          "teacher": "Бондаренко П.Н.",
+          "room": "Лаб. 112",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "3": [
+        {
+          "time": "12:20 - 13:55",
+          "subject": "Программирование",
+          "type": "Лабораторная",
+          "teacher": "Савченко Д.Р.",
+          "room": "Teams",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "4": [
+        {
+          "time": "08:30 - 10:05",
+          "subject": "Высшая математика",
+          "type": "Лекция",
+          "teacher": "Мельник И.С.",
+          "room": "Teams",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "5": [],
+      "6": []
+    },
+    "denominator": {
+      "1": [
+        {
+          "time": "08:30 - 10:05",
+          "subject": "Теоретическая электротехника",
+          "type": "Практика",
+          "teacher": "Коваленко А.В.",
+          "room": "Ауд. 215",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "2": [
+        {
+          "time": "10:25 - 12:00",
+          "subject": "Физика",
+          "type": "Лекция",
+          "teacher": "Бондаренко П.Н.",
+          "room": "Teams",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "3": [
+        {
+          "time": "12:20 - 13:55",
+          "subject": "Программирование",
+          "type": "Лекция",
+          "teacher": "Савченко Д.Р.",
+          "room": "Teams",
+          "teams_url": "https://teams.microsoft.com"
+        }
+      ],
+      "4": [],
+      "5": [],
+      "6": []
+    }
+  },
+  "session": {
+    "credit_week_start": "2026-12-21",
+    "exam_session_start": "2027-01-11",
+    "exams": [
+      {
+        "date": "2026-12-23",
+        "time": "10:00",
+        "subject": "Программирование",
+        "type": "Зачет",
+        "teacher": "Савченко Д.Р.",
+        "room": "Teams"
+      },
+      {
+        "date": "2027-01-12",
+        "time": "09:00",
+        "subject": "Теоретическая электротехника",
+        "type": "Экзамен",
+        "teacher": "Коваленко А.В.",
+        "room": "Ауд. 215"
+      },
+      {
+        "date": "2027-01-16",
+        "time": "09:00",
+        "subject": "Высшая математика",
+        "type": "Экзамен",
+        "teacher": "Мельник И.С.",
+        "room": "Ауд. 304"
+      }
+    ]
+  }
+}
