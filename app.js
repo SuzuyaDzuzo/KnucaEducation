@@ -301,97 +301,91 @@ async function init() {
 
 init();
 
-(function enableHorizontalDateScroll() {
-  function attachControls(strip) {
-    if (!strip || strip.dataset.scrollEnhanced) return;
-    strip.dataset.scrollEnhanced = "1";
+(function () {
+  function enhance(strip) {
+    if (!strip || strip.dataset.scrollReady) return;
+    strip.dataset.scrollReady = "1";
+    strip.style.overflowX = "auto";
+    strip.style.scrollBehavior = "smooth";
+    strip.style.cursor = "grab";
+    strip.style.userSelect = "none";
 
-    strip.addEventListener(
-      "wheel",
-      (e) => {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-          e.preventDefault();
-          strip.scrollLeft += e.deltaY;
-        }
-      },
-      { passive: false }
-    );
+    strip.addEventListener("wheel", function (e) {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        strip.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
 
     let isDown = false;
     let startX = 0;
-    let startScrollLeft = 0;
-    let moved = false;
+    let startScroll = 0;
+    let dragged = false;
 
-    strip.addEventListener("mousedown", (e) => {
+    strip.addEventListener("mousedown", function (e) {
       isDown = true;
-      moved = false;
-      startX = e.pageX - strip.offsetLeft;
-      startScrollLeft = strip.scrollLeft;
+      dragged = false;
+      startX = e.pageX;
+      startScroll = strip.scrollLeft;
       strip.style.cursor = "grabbing";
     });
 
-    window.addEventListener("mouseup", () => {
+    window.addEventListener("mouseup", function () {
       isDown = false;
       strip.style.cursor = "grab";
     });
 
-    strip.addEventListener("mousemove", (e) => {
+    strip.addEventListener("mousemove", function (e) {
       if (!isDown) return;
-      const x = e.pageX - strip.offsetLeft;
-      const walk = x - startX;
-      if (Math.abs(walk) > 5) {
-        moved = true;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 5) {
+        dragged = true;
         e.preventDefault();
-        strip.scrollLeft = startScrollLeft - walk;
+        strip.scrollLeft = startScroll - dx;
       }
     });
 
-    strip.addEventListener(
-      "click",
-      (e) => {
-        if (moved) {
-          e.stopPropagation();
-          e.preventDefault();
-          moved = false;
-        }
-      },
-      true
-    );
+    strip.addEventListener("click", function (e) {
+      if (dragged) {
+        e.stopPropagation();
+        e.preventDefault();
+        dragged = false;
+      }
+    }, true);
 
-    strip.style.cursor = "grab";
-    strip.style.userSelect = "none";
+    const wrap = document.createElement("div");
+    wrap.style.cssText = "display:flex;align-items:center;gap:6px;width:100%;";
+    strip.parentNode.insertBefore(wrap, strip);
 
-    const wrapper = document.createElement("div");
-    wrapper.style.cssText = "display:flex;align-items:center;gap:6px;";
-    strip.parentNode.insertBefore(wrapper, strip);
-
-    const makeArrow = (label, delta) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.textContent = label;
-      btn.style.cssText =
-        "flex:0 0 auto;width:28px;height:54px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);" +
-        "background:rgba(255,255,255,0.05);color:inherit;font-size:18px;cursor:pointer;";
-      btn.addEventListener("click", () => {
-        strip.scrollBy({ left: delta, behavior: "smooth" });
+    function makeBtn(txt, step) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = txt;
+      b.style.cssText = "flex:0 0 auto;width:28px;height:52px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:inherit;font-size:18px;cursor:pointer;";
+      b.addEventListener("click", function () {
+        strip.scrollBy({ left: step, behavior: "smooth" });
       });
-      return btn;
-    };
+      return b;
+    }
 
     strip.style.flex = "1 1 auto";
     strip.style.minWidth = "0";
-    wrapper.appendChild(makeArrow("‹", -260));
-    wrapper.appendChild(strip);
-    wrapper.appendChild(makeArrow("›", 260));
+    wrap.appendChild(makeBtn("‹", -260));
+    wrap.appendChild(strip);
+    wrap.appendChild(makeBtn("›", 260));
   }
 
-  const candidate =
-    document.getElementById("calendar-strip") ||
-    Array.from(document.querySelectorAll("div")).find(
-      (el) => el.scrollWidth > el.clientWidth + 20 && el.children.length >= 5
-    );
+  const timer = setInterval(function () {
+    const cards = Array.from(document.querySelectorAll("button, div")).filter(function (el) {
+      return el.children.length <= 3 && /^(Пн|Вт|Ср|Чт|Пт|Сб|Вс|Нд)\s*\d{2}\.\d{2}$/i.test(el.textContent.trim());
+    });
+    if (cards.length >= 4 && cards[0].parentElement) {
+      enhance(cards[0].parentElement);
+      clearInterval(timer);
+    }
+  }, 200);
 
-  if (candidate) {
-    attachControls(candidate);
-  }
+  setTimeout(function () {
+    clearInterval(timer);
+  }, 15000);
 })();
