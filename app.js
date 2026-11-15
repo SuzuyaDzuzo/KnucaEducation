@@ -75,11 +75,21 @@ function renderCalendarStrip() {
   const strip = document.getElementById("calendar-strip");
   strip.innerHTML = "";
 
-  for (let offset = -30; offset <= 90; offset++) {
-    const d = new Date(todayObj);
-    d.setDate(todayObj.getDate() + offset);
-    const iso = toIsoDate(d);
-    const lessons = getLessonsForDate(iso, d);
+  const sched = appData.schedule || {};
+  const dates = Object.keys(sched).filter((iso) => Array.isArray(sched[iso]) && sched[iso].length > 0).sort();
+
+  if (!dates.includes(todayIso)) {
+    dates.push(todayIso);
+    dates.sort();
+  }
+
+  if (dates.length === 0) {
+    dates.push(todayIso);
+  }
+
+  dates.forEach((iso) => {
+    const d = new Date(iso + "T00:00:00");
+    const lessons = getLessonsForDate(iso);
 
     const btn = document.createElement("button");
     btn.type = "button";
@@ -103,7 +113,7 @@ function renderCalendarStrip() {
     });
 
     strip.appendChild(btn);
-  }
+  });
 }
 
 function scrollToDate(isoStr) {
