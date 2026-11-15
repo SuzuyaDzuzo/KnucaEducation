@@ -300,3 +300,98 @@ async function init() {
 }
 
 init();
+
+(function enableHorizontalDateScroll() {
+  function attachControls(strip) {
+    if (!strip || strip.dataset.scrollEnhanced) return;
+    strip.dataset.scrollEnhanced = "1";
+
+    strip.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          strip.scrollLeft += e.deltaY;
+        }
+      },
+      { passive: false }
+    );
+
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let moved = false;
+
+    strip.addEventListener("mousedown", (e) => {
+      isDown = true;
+      moved = false;
+      startX = e.pageX - strip.offsetLeft;
+      startScrollLeft = strip.scrollLeft;
+      strip.style.cursor = "grabbing";
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDown = false;
+      strip.style.cursor = "grab";
+    });
+
+    strip.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      const x = e.pageX - strip.offsetLeft;
+      const walk = x - startX;
+      if (Math.abs(walk) > 5) {
+        moved = true;
+        e.preventDefault();
+        strip.scrollLeft = startScrollLeft - walk;
+      }
+    });
+
+    strip.addEventListener(
+      "click",
+      (e) => {
+        if (moved) {
+          e.stopPropagation();
+          e.preventDefault();
+          moved = false;
+        }
+      },
+      true
+    );
+
+    strip.style.cursor = "grab";
+    strip.style.userSelect = "none";
+
+    const wrapper = document.createElement("div");
+    wrapper.style.cssText = "display:flex;align-items:center;gap:6px;";
+    strip.parentNode.insertBefore(wrapper, strip);
+
+    const makeArrow = (label, delta) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = label;
+      btn.style.cssText =
+        "flex:0 0 auto;width:28px;height:54px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);" +
+        "background:rgba(255,255,255,0.05);color:inherit;font-size:18px;cursor:pointer;";
+      btn.addEventListener("click", () => {
+        strip.scrollBy({ left: delta, behavior: "smooth" });
+      });
+      return btn;
+    };
+
+    strip.style.flex = "1 1 auto";
+    strip.style.minWidth = "0";
+    wrapper.appendChild(makeArrow("‹", -260));
+    wrapper.appendChild(strip);
+    wrapper.appendChild(makeArrow("›", 260));
+  }
+
+  const candidate =
+    document.getElementById("calendar-strip") ||
+    Array.from(document.querySelectorAll("div")).find(
+      (el) => el.scrollWidth > el.clientWidth + 20 && el.children.length >= 5
+    );
+
+  if (candidate) {
+    attachControls(candidate);
+  }
+})();
