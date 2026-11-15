@@ -63,16 +63,10 @@ function escapeHtml(str) {
     .replace(/"/g, "&quot;");
 }
 
-function getLessonsForDate(isoStr, dateObj) {
+function getLessonsForDate(isoStr) {
   const sched = appData.schedule || {};
   if (Array.isArray(sched[isoStr])) {
     return sched[isoStr];
-  }
-  if (sched.numerator || sched.denominator) {
-    const dayNum = String(dateObj.getDay() === 0 ? 7 : dateObj.getDay());
-    const numList = (sched.numerator && sched.numerator[dayNum]) || [];
-    const denList = (sched.denominator && sched.denominator[dayNum]) || [];
-    return numList.length ? numList : denList;
   }
   return [];
 }
