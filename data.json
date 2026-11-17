@@ -1,5 +1,5 @@
 {
-  "updated_at": "16.11.2026 04:30",
+  "updated_at": "17.11.2026 12:22",
   "semester_start": "2026-09-01",
   "subjects": [
     {
@@ -73,7 +73,8 @@
       "title": "Задание из материала",
       "description": "Текст не распознан как конкретное задание, сохранено по уточнению админа.",
       "deadline": "",
-      "points": ""
+      "points": "",
+      "photos": []
     }
   ],
   "schedule": {
@@ -491,8 +492,8 @@
     ]
   },
   "session": {
-    "credit_week_start": "2026-12-21",
-    "exam_session_start": "2027-01-11",
+    "credit_week_start": "2026-12-15",
+    "exam_session_start": "xxxx-xx-xx",
     "exams": []
   }
 }
